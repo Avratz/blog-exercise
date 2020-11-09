@@ -6,7 +6,8 @@ import createDataContext from './createDataContext'
 const blogReducer = (state: iBlogPost[], action:any) => {
 	switch (action.type) {
 		case 'ADD_POST':
-			return [...state, {title: `Blog post #${state.length}`, id: Date.now()}]
+			const {title, content} = action.payload
+			return [...state, {title, content, id: Date.now()}]
 		case 'DELETE_POST':
 			return state.filter(post => post.id !== action.payload)
 		default:
@@ -16,8 +17,8 @@ const blogReducer = (state: iBlogPost[], action:any) => {
 
 const actions = {
 	addBlogPost(dispatch: React.Dispatch<any>){
-		return () => {
-			dispatch({type: 'ADD_POST'})
+		return (title:string, content:string) => {
+			dispatch({type: 'ADD_POST', payload: {title, content}})
 		}
 	},
 	deleteBlogPost(dispatch: React.Dispatch<any>){
