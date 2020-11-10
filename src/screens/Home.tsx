@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavigationContext } from '@react-navigation/native'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
 

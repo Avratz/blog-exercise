@@ -8,6 +8,7 @@ import { Provider as BlogProvider } from './src/context/BlogContext'
 import Home from './src/screens/Home'
 import Single from './src/screens/Single';
 import CreatePost from './src/screens/Create';
+import EditPost from './src/screens/Edit'
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,11 @@ export default function App() {
               name="CreatePost"
               component={CreatePost}
               options={{ title: 'Create Blog Post' }}
+            />
+            <Stack.Screen
+              name="EditPost"
+              component={EditPost}
+              options={{ title: 'Edit Blog Post' }}
             />
           </Stack.Navigator>
         </NavigationContainer>
