@@ -21,8 +21,17 @@ const Home = () => {
         )
       }
     });
+    
   }, [navigation]);
 
+
+  React.useEffect(() => {
+    const unsubscribe = navigation?.addListener('focus', () => {
+      actions.getBlogPost()
+    });
+
+    return unsubscribe;
+  },[navigation])
 
   return (
     <View>

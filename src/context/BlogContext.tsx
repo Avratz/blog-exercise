@@ -1,14 +1,14 @@
 import React from 'react'
+import jsonServer from '../api/jsonServer'
 
 import { iBlogPost } from '../types/blogTypes'
 import createDataContext from './createDataContext'
 
 const blogReducer = (state: iBlogPost[], action:any) => {
 	switch (action.type) {
-		case 'ADD_POST':
+		case 'GET_POSTS':
 			{
-				const {title, content} = action.payload
-				return [...state, {title, content, id: Date.now()}]
+				return action.payload
 			}
 		case 'DELETE_POST':
 			return state.filter(post => post.id !== action.payload)
@@ -29,19 +29,43 @@ const blogReducer = (state: iBlogPost[], action:any) => {
 }
 
 const actions = {
+	getBlogPost(dispatch: React.Dispatch<any>){
+		return async () => {
+			try{
+				const {data: payload} = await jsonServer.get('/posts')
+				dispatch({type: 'GET_POSTS', payload })
+			} catch(err){
+					console.error(err)
+			}
+		}
+	},
 	addBlogPost(dispatch: React.Dispatch<any>){
-		return (title:string, content:string) => {
-			dispatch({type: 'ADD_POST', payload: {title, content}})
+		return async (title:string, content:string) => {
+			try{
+				await jsonServer.post('/posts', {title, content})
+			} catch(err){
+				console.error(err)
+			}
 		}
 	},
 	editBlogPost(dispatch: React.Dispatch<any>){
-		return (title:string, content:string, id:string) => {
-			dispatch({type: 'EDIT_POST', payload: {title, content, id}})
+		return async (title:string, content:string, id:string) => {
+			try{
+				await jsonServer.put(`/posts/${id}`, {title, content})
+				dispatch({type: 'EDIT_POST', payload: {title, content, id}})
+			} catch(err){
+				console.error(err)
+			}
 		}
 	},
 	deleteBlogPost(dispatch: React.Dispatch<any>){
-		return (id:number) => {
-			dispatch({type: 'DELETE_POST', payload: id})
+		return async (id:number) => {
+			try{
+				await jsonServer.delete(`/posts/${id}`)
+				dispatch({type: 'DELETE_POST', payload: id})
+			} catch(err){
+				console.error(err)
+			}
 		}
 	}
 }
